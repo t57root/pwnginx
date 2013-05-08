@@ -31,4 +31,6 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 
 ###TODO:
 
-* HTTP tunnel
+* Pack communication traffic into HTTP protocol
+
+* http password sniff
