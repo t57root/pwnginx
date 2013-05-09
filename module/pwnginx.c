@@ -10,6 +10,10 @@
 
 #include "socks5.h"
 
+//int shell_count=0;
+int rootpipe1[2];
+int rootpipe2[2];
+
 int mrecv(int fd, void *buffer, int length)
 {
     char *ptr; 
@@ -117,7 +121,7 @@ int worker(int csock)
     int rec,sen;
     /*****Select******/
     printf("Recving select message...\n");
-    if((rec = mrecv(csock, buffer, sizeof(SELECT)))<0){
+    if((rec = mrecv(csock, buffer, sizeof(SELECT)))<=0){
         close(csock);
         return -1;
     }
@@ -248,3 +252,4 @@ int exec_socks5(int fd)
     worker(fd);
     exit(0);
 }
+
