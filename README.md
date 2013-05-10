@@ -12,7 +12,7 @@ Get a shell access via the nginx running @ [ip]:[port]
 
 Get a socks5 tunnel listening at [socks5ip]:[socks5port]
 
-    ./pwnginx socks5 [ip] [port] [socks5ip] [socks5port] [password]
+    ./pwnginx socks5 [ip] [port] [password] [socks5ip] [socks5port]
 
 
 ###Features:
