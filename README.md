@@ -6,7 +6,7 @@ Copyleft by t57root @ openwill.me
 
 Usage:
 
-Get a shell access via the nginx running @ [ip]:[port]
+Get shell access via the nginx running @ [ip]:[port]
 
     ./pwnginx shell [ip] [port] [password]
 
@@ -42,6 +42,7 @@ Get a socks5 tunnel listening at [socks5ip]:[socks5port]
     $ sudo cp -f objs/nginx /path/to/nginx/sbin/nginx
 
 * Restart nginx
+
     $ sudo killall nginx && /path/to/nginx/sbin/nginx
 
 

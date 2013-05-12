@@ -1,6 +1,7 @@
 /*                                 
  *  functions.c - pwnginx functions
  *  t57root@gmail.com              
+ *  lastest version @ https://github.com/t57root/pwnginx
  *  openwill.me / www.hackshell.net
  */                           
 
